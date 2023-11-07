@@ -9,7 +9,8 @@ const postSchema = mongoose.Schema(
     {
         title: {type: String},
         description: {type: String},
-        departmentCode: {type: String}
+        departmentCode: {type: String},
+        username: {type: String}
     }
 )
 
@@ -22,7 +23,8 @@ function validatePost(Post) {
     const schema = joi.object({
         title: joi.string().min(3).max(50).required(),
         description: joi.string().min(3).max(50).required(),
-        departmentCode: joi.string().min(3).max(50).required()
+        departmentCode: joi.string().min(3).max(50).required(),
+        username: joi.string().min(3).max(50).required()
     })
     return schema.validate(Post)
 }

@@ -3,11 +3,16 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const { isValidPassword } = require('../utils/hash');
 
+const ExpressBrute = require('express-brute');
+//store memmory for persisting request counts
+const store = new ExpressBrute.MemoryStore();
+const bruteforce = new ExpressBrute(store);
+
 //auth route
 //contains methods associated with authentication
 
 //login method
-router.post('/', async (req, res) => {
+router.post('/', bruteforce.prevent, async (req, res) => {
 
     const user = await User.findOne({username : req.body.username});
     if (!user)
@@ -21,5 +26,6 @@ router.post('/', async (req, res) => {
     const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET_KEY, {expiresIn:'4h'});
     res.send({token})
 });
+
 
 module.exports = router;

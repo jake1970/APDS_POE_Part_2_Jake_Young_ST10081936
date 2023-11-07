@@ -15,7 +15,8 @@ mongoose
 
 
 //Middleware
-app.use(cors({ origin: 'https://localhost:3000', optionsSuccessStatus: 200}))
+//app.use(cors({ origin: 'https://localhost:3000', optionsSuccessStatus: 200}))
+app.use(cors({ origin: 'http://localhost:4200', optionsSuccessStatus: 200}))
 app.use(express.json())
 app.use(hsts)
 
@@ -33,6 +34,10 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/users', require('./routes/users'))
 app.use('/api/posts', require('./routes/posts'))
 
+const helmet = require('helmet');
+const morgan = require('morgan');
+app.use(helmet());
+app.use(morgan('tiny'));
 
 //Listen
 https
